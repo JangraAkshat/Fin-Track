@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { FinanceProvider, useFinance } from './context/FinanceContext';
+import Navbar from './components/Navbar';
+import SummaryCards from './components/SummaryCards';
+import Analytics from './components/Analytics';
+import TransactionTable from './components/TransactionTable';
+import TransactionForm from './components/TransactionForm';
+import Insights from './components/Insights';
+import './styles/App.css';
+
+// Separate component to access context
+const AppContent = () => {
+  const { darkMode } = useFinance();
+
+  return (
+    <div className={`app-wrapper ${darkMode ? 'dark-mode' : ''}`}>
+      <Navbar />
+      <main className="content">
+        <SummaryCards />
+        <div className="main-grid">
+          <div className="left-column">
+            <Analytics />
+            <TransactionTable />
+          </div>
+          <div className="right-column">
+            <TransactionForm />
+            <Insights />
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <FinanceProvider>
+      <AppContent />
+    </FinanceProvider>
   );
 }
 

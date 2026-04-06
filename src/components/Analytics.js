@@ -30,7 +30,6 @@ const Analytics = () => {
     value: categoryTotals[key]
   }));
 
-  // Standardized Color Mapping for Consistency
   const colorMap = {
     'Food': '#f59e0b',
     'Health': '#ef4444',
@@ -42,7 +41,6 @@ const Analytics = () => {
   const chartTextColor = darkMode ? "#94a3b8" : "#64748b";
   const gridColor = darkMode ? "#334155" : "#e2e8f0";
 
-  // --- FIXED STATIC LEGEND (Always shows 4 categories) ---
   const renderStaticLegend = () => {
     const staticItems = [
       { name: 'Food', color: colorMap['Food'] },
@@ -103,7 +101,6 @@ const Analytics = () => {
         </div>
       </div>
 
-      {/* Expense Breakdown (Static Footer) */}
       <div className="card chart-card pie-card-layout">
         <h3>Expense Breakdown</h3>
         <div className="pie-container" style={{ width: '100%', height: 350 }}>

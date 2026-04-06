@@ -11,7 +11,6 @@ const Navbar = () => {
   return (
     <nav className="navbar-container">
       <div className="card navbar-card">
-        {/* Logo Section with Cross-Fade Container */}
         <div className="logo-wrapper">
           <img 
             src={logoLight} 

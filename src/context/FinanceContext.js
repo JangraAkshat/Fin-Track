@@ -13,7 +13,6 @@ export const FinanceProvider = ({ children }) => {
     const savedTransactions = localStorage.getItem('transactions');
     const savedVersion = localStorage.getItem('data_version');
 
-    // If version mismatch or no data, load the new 8 transactions
     if (!savedTransactions || savedVersion !== DATA_VERSION) {
       const defaultData = [
         { id: 101, date: '2026-04-01', desc: 'Monthly Salary', amount: 95000, category: 'Income', type: 'income' },

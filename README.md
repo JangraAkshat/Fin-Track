@@ -1,70 +1,166 @@
-# Getting Started with Create React App
+# FinTrack — Finance Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A clean, interactive personal finance dashboard built with **React** and **CSS custom properties**. Designed as a frontend assignment to demonstrate component architecture, state management, role-based UI, and data visualisation.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Live Demo
 
-### `npm start`
+> Deploy via Vercel or Netlify by connecting your repository. No backend required — all data is handled client-side.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js v18 or higher
+- npm v9 or higher
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+# Clone the repository
+git clone https://github.com/your-username/fintrack.git
+cd fintrack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Install dependencies
+npm install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Start the development server
+npm run dev
+```
 
-### `npm run eject`
+The app will be available at `http://localhost:5173` (Vite) or `http://localhost:3000` (Create React App).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Build for Production
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm run build
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Project Structure
 
-## Learn More
+```
+src/
+├── assets/
+│   ├── logo-light.png       # Logo shown in light mode
+│   └── logo-dark.png        # Logo shown in dark mode
+├── components/
+│   ├── Navbar.jsx            # Top navigation, role toggle, dark mode
+│   ├── SummaryCards.jsx      # Balance / Income / Expense summary
+│   ├── Analytics.jsx         # Line chart (trend) + Pie chart (breakdown)
+│   ├── TransactionTable.jsx  # Filterable, sortable, exportable table
+│   ├── TransactionForm.jsx   # Add transaction form (admin only)
+│   └── Insights.jsx          # Auto-generated spending insights
+├── context/
+│   └── FinanceContext.jsx    # Global state via React Context
+├── styles/
+│   └── App.css               # All styles — design tokens, layout, responsive
+└── App.jsx                   # Root component and layout
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Features
 
-### Code Splitting
+### Dashboard Overview
+- Three summary cards: **Total Balance**, **Total Income**, **Total Expenses** — each with a colour-coded icon and uppercase label for quick scanning
+- **Net Balance Trend** — line chart showing cumulative balance over time (oldest → newest)
+- **Expense Breakdown** — donut chart with spending by category
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Transactions
+- Full transaction list with **date**, **description**, **category**, **type**, and **amount**
+- **Search** by description
+- **Filter** by category
+- **Sort** by date (click the Date column header to toggle ascending / descending)
+- **CSV export** — downloads currently filtered transactions as a `.csv` file
 
-### Analyzing the Bundle Size
+### Add Transaction Form
+- Selecting the **Income** category automatically sets the type to `income`, preventing the common mistake of logging income as an expense
+- Switching the type back to `expense` resets the category to Food if it was Income
+- A subtle "Auto-set from category" hint appears when the sync is active
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Role-Based UI
+Roles are simulated on the frontend with no backend dependency.
 
-### Making a Progressive Web App
+| Feature | Viewer | Admin |
+|---|---|---|
+| View transactions | ✓ | ✓ |
+| View charts & insights | ✓ | ✓ |
+| Add transactions | — | ✓ |
+| Delete transactions | — | ✓ |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Switch roles using the **"To Admin / To Viewer"** button in the navbar. The add-transaction form animates in and out, and the delete column fades when switching roles.
 
-### Advanced Configuration
+### Insights
+Automatically derived from transaction data:
+- Highest spending category
+- Total spend this period
+- Current savings rate (%)
+- Month-over-month spend comparison (current vs previous month)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Empty States
+All sections handle zero-data gracefully:
+- Summary cards show ₹0 with a "No transactions yet" label
+- Charts display a "No data" message instead of a broken graph
+- Transaction table shows a contextual empty message
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Optional Enhancements Implemented
 
-### `npm run build` fails to minify
+| Enhancement | Details |
+|---|---|
+| **Dark mode** | Full theme with CSS custom properties; logo cross-fades between light and dark variants |
+| **Data persistence** | Transactions and theme preference saved to `localStorage`; versioned data reset on schema change |
+| **Animations** | Row flash on add (green) and delete (red), form slide-in for admin mode, button scale on click |
+| **CSV export** | Export filtered transactions from the table header |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## State Management
+
+All global state lives in a single **React Context** (`FinanceContext`):
+
+- `transactions` — array of transaction objects, initialised from `localStorage`
+- `role` — `'admin'` or `'viewer'`, controls UI permissions
+- `darkMode` — boolean, persisted to `localStorage`
+- `addTransaction(tx)` — guarded by role check
+- `deleteTransaction(id)` — guarded by role check
+
+No external state library is used; the data shape is simple enough that Context + `useState` is the right tool.
+
+---
+
+## Design Decisions
+
+- **CSS custom properties** for theming — a single `:root` block and a `.dark-mode` override handle the entire colour system, keeping component styles theme-agnostic.
+- **No UI library** — all components are hand-styled for full control over layout and transitions.
+- **Recharts** for data visualisation — lightweight, composable, and SSR-friendly.
+- **Versioned localStorage** — a `DATA_VERSION` constant forces a clean reset when the default data shape changes, avoiding stale state bugs during development.
+- **Static legend on pie chart** — always shows all four categories even when some have zero spend, preventing layout shifts as data changes.
+
+---
+
+## Assumptions
+
+- All amounts are in **Indian Rupees (₹)**
+- "This month" and "last month" comparisons use the browser's local date
+- The app uses mock/static seed data; there is no real backend or authentication
+- Role switching is for demonstration only — it does not represent a secure RBAC system
+
+---
+
+## Tech Stack
+
+| Tool | Purpose |
+|---|---|
+| React 18 | UI framework |
+| Recharts | Charts |
+| Lucide React | Icons |
+| CSS custom properties | Theming and design tokens |
+| localStorage | Client-side persistence |
+| Vite | Build tool |
